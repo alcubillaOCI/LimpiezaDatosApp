@@ -6,17 +6,20 @@ import numpy as np
 # Título de la aplicación
 st.title("Búsqueda de Matrículas en Reportes de IA")
 
-# Sección para cargar el archivo
-st.subheader("Matrículas", divider='blue')
-a = st.file_uploader("Archivo xlsx de _'Matrículas'_ a buscar", type=["xlsx"])
+archivos = st.toggle('Carga de archivos')
 
-st.subheader("Etiquetas y Denuncias", divider='blue')
-df_up = st.file_uploader(
-    "Archivo xlsx de la hoja combinada de _'Etiqueta y Denuncias limpio'_ del reporte de IA", type=["xlsx"])
-
-st.subheader("Base de datos escolar", divider='blue')
-df_up2 = st.file_uploader(
-    "Archivo xlsx de _'Base de datos escolar'_", type=["xlsx"])
+if archivos:
+    # Sección para cargar el archivo
+    st.subheader("Matrículas", divider='blue')
+    a = st.file_uploader("Archivo xlsx de _'Matrículas'_ a buscar", type=["xlsx"])
+    
+    st.subheader("Etiquetas y Denuncias", divider='blue')
+    df_up = st.file_uploader(
+        "Archivo xlsx de la hoja combinada de _'Etiqueta y Denuncias limpio'_ del reporte de IA", type=["xlsx"])
+    
+    st.subheader("Base de datos escolar", divider='blue')
+    df_up2 = st.file_uploader(
+        "Archivo xlsx de _'Base de datos escolar'_", type=["xlsx"])
 
 # Si hay archivos
 if (df_up is not None) and (df_up2 is not None) and (a is not None):
