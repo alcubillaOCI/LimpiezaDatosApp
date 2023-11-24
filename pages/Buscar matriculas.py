@@ -6,7 +6,7 @@ import numpy as np
 # Título de la aplicación
 st.title("Búsqueda de Matrículas en Reportes de IA")
 archivos = st.toggle('Carga de archivos')
-
+a, df_up, df_up2 = None, None, None
 def cargar_archivos():
     st.subheader("Matrículas", divider='blue')
     a = st.file_uploader("Archivo xlsx de _'Matrículas'_ a buscar", type=["xlsx"])
