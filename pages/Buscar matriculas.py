@@ -19,13 +19,13 @@ def cargar_archivos():
     return a, df_up, df_up2
 
 # Función para escribir el excel
-    def df_to_excel(df):
-        output = io.BytesIO()
-        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-            df.to_excel(
-                writer, sheet_name='Información matrículas', index=False)
-        output.seek(0)
-        return output
+def df_to_excel(df):
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df.to_excel(
+            writer, sheet_name='Información matrículas', index=False)
+    output.seek(0)
+    return output
 
 def busqueda(df_up, a, df_up2):
     # Leer archivos cargados
