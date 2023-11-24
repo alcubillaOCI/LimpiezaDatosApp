@@ -65,16 +65,17 @@ if (df_up is not None) and (df_up2 is not None) and (a is not None):
         # ----
         # Registro DB-Escolar de la matrícula i
         esc = df_esc[df_esc['Matrícula'] == i]
+        unidad = df_mats[df_mats['Matrícula'] == i]
         if esc['Nombre completo'].empty:  # Si no existe el registro
             name.append(np.nan)
         else:
             name.append(esc['Nombre completo'].values[0])  # nombre
 
-        if df_mats['Unidad de Negocio'].empty:  # Si no existe el registro
+        if unidad['Unidad de Negocio'].empty:  # Si no existe el registro
             nivel.append(np.nan)
         else:
             # nivel de estudios
-            nivel.append(df_mats['Unidad de Negocio'].values[0])
+            nivel.append(unidad['Unidad de Negocio'].values[0])
 
     df_a['Nombre completo'] = name
     df_a['Unidad de Negocio'] = nivel
