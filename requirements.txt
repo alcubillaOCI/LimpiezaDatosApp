@@ -1,6 +1,6 @@
 pandas
 numpy
-re
+regex
 os
 zipfile
 io
