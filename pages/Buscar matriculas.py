@@ -8,8 +8,7 @@ st.title("Búsqueda de Matrículas en Reportes de IA")
 
 archivos = st.toggle('Carga de archivos')
 
-if archivos:
-    # Sección para cargar el archivo
+def cargar_archivos():
     st.subheader("Matrículas", divider='blue')
     a = st.file_uploader("Archivo xlsx de _'Matrículas'_ a buscar", type=["xlsx"])
     
@@ -20,6 +19,12 @@ if archivos:
     st.subheader("Base de datos escolar", divider='blue')
     df_up2 = st.file_uploader(
         "Archivo xlsx de _'Base de datos escolar'_", type=["xlsx"])
+    return a, df_up, df_up2
+
+a, df_up, df_up2 = None, None, None
+if archivos:
+    # Sección para cargar el archivo
+    a, df_up, df_up2 = cargar_archivos()
 
 # Si hay archivos
 if (df_up is not None) and (df_up2 is not None) and (a is not None):
