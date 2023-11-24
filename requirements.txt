@@ -2,3 +2,4 @@ pandas
 numpy
 regex
 zipfile36
+openpyxl
