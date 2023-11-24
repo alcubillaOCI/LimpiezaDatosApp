@@ -3,3 +3,4 @@ numpy
 regex
 zipfile36
 openpyxl
+xlsxwriter
