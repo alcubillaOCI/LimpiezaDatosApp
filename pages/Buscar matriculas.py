@@ -24,7 +24,7 @@ def cargar_archivos(a, df_up, df_up2):
 
 if archivos:
     # Sección para cargar el archivo
-    a, df_up, df_up2 = cargar_archivos()
+    a, df_up, df_up2 = cargar_archivos(a, df_up, df_up2)
 
 # Si hay archivos
 if (df_up is not None) and (df_up2 is not None) and (a is not None):
