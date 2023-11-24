@@ -5,26 +5,24 @@ import numpy as np
 
 # Título de la aplicación
 st.title("Búsqueda de Matrículas en Reportes de IA")
-a, df_up, df_up2 = None, None, None
 archivos = st.toggle('Carga de archivos')
 
-def cargar_archivos(a, df_up, df_up2):
-    if (df_up is None) and (df_up2 is None) and (a is None): 
-        st.subheader("Matrículas", divider='blue')
-        a = st.file_uploader("Archivo xlsx de _'Matrículas'_ a buscar", type=["xlsx"])
-        
-        st.subheader("Etiquetas y Denuncias", divider='blue')
-        df_up = st.file_uploader(
-            "Archivo xlsx de la hoja combinada de _'Etiqueta y Denuncias limpio'_ del reporte de IA", type=["xlsx"])
-        
-        st.subheader("Base de datos escolar", divider='blue')
-        df_up2 = st.file_uploader(
-            "Archivo xlsx de _'Base de datos escolar'_", type=["xlsx"])
+def cargar_archivos():
+    st.subheader("Matrículas", divider='blue')
+    a = st.file_uploader("Archivo xlsx de _'Matrículas'_ a buscar", type=["xlsx"])
+    
+    st.subheader("Etiquetas y Denuncias", divider='blue')
+    df_up = st.file_uploader(
+        "Archivo xlsx de la hoja combinada de _'Etiqueta y Denuncias limpio'_ del reporte de IA", type=["xlsx"])
+    
+    st.subheader("Base de datos escolar", divider='blue')
+    df_up2 = st.file_uploader(
+        "Archivo xlsx de _'Base de datos escolar'_", type=["xlsx"])
     return a, df_up, df_up2
 
 if archivos:
     # Sección para cargar el archivo
-    a, df_up, df_up2 = cargar_archivos(a, df_up, df_up2)
+    a, df_up, df_up2 = cargar_archivos()
 
 # Si hay archivos
 if (df_up is not None) and (df_up2 is not None) and (a is not None):
