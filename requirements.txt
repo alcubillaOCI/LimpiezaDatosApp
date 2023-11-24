@@ -2,5 +2,5 @@ pandas
 numpy
 regex
 os-sys
-zipfile
+zipfile36
 io
