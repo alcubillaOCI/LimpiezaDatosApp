@@ -97,42 +97,22 @@ def busqueda(df_up, a, df_up2):
     no_mat = [elemento for elemento in no_mat if not df_mats['E Matrícula Del Estudiante Reportado'].str.contains(
         elemento, regex=True).any()]
 
-    return df_mats, no_mat, df_a
+    return df_mats, df_a
 
 def despliegue(a, df_up, df_up2):
     # Si hay archivos
     if (df_up is not None) and (df_up2 is not None) and (a is not None):
         st.header("Filtrado", divider='orange')
     
-        df_mats, no_mat, df_a = busqueda(df_up, a, df_up2)
+        df_mats, df_a = busqueda(df_up, a, df_up2)
         # Si no se encontró ninguna matrícula
         if df_mats.empty:
             st.write('***:red[No se encontraron registros con las matrículas]***')
     
         # Si todas las matrículas se encontraron
-        elif not no_mat:
-            st.subheader('Archivo filtrado', divider='grey')
-            df_mats
-            st.download_button(
-                label="Descargar XLSX filtrado",
-                data=df_to_excel(df_mats),
-                file_name=f"{df_up.name.replace('.xlsx','')}_filtrado.xlsx")
-    
-            st.subheader('Resumen matrículas', divider='grey')
-            df_a
-            st.download_button(
-                label="Descargar XLSX de conteo",
-                data=df_to_excel(df_a),
-                file_name=f"{a.name.replace('.xlsx','')}_conteo.xlsx")
-    
-        # Si hubo matrículas tanto no encontradas como encontradas
         else:
-            st.subheader('Matrículas no encontradas', divider='grey')
-            st.write(','.join(no_mat))
-    
             st.subheader('Archivo filtrado', divider='grey')
             df_mats
-    
             st.download_button(
                 label="Descargar XLSX filtrado",
                 data=df_to_excel(df_mats),
