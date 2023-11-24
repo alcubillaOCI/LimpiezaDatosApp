@@ -3,10 +3,8 @@ import pandas as pd
 import io
 import numpy as np
 
-# Título de la aplicación
-st.title("Búsqueda de Matrículas en Reportes de IA")
-archivos = st.toggle('Carga de archivos')
-a, df_up, df_up2 = None, None, None
+# %%% Funciones
+# Función para cargar archivos
 def cargar_archivos():
     st.subheader("Matrículas", divider='blue')
     a = st.file_uploader("Archivo xlsx de _'Matrículas'_ a buscar", type=["xlsx"])
@@ -20,13 +18,16 @@ def cargar_archivos():
         "Archivo xlsx de _'Base de datos escolar'_", type=["xlsx"])
     return a, df_up, df_up2
 
-if archivos:
-    # Sección para cargar el archivo
-    a, df_up, df_up2 = cargar_archivos()
+# Función para escribir el excel
+    def df_to_excel(df):
+        output = io.BytesIO()
+        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+            df.to_excel(
+                writer, sheet_name='Información matrículas', index=False)
+        output.seek(0)
+        return output
 
-# Si hay archivos
-if (df_up is not None) and (df_up2 is not None) and (a is not None):
-    st.header("Filtrado", divider='orange')
+def busqueda(df_up, a, df_up2):
     # Leer archivos cargados
     df = pd.read_excel(df_up)
     df_a = pd.read_excel(a)
@@ -96,56 +97,68 @@ if (df_up is not None) and (df_up2 is not None) and (a is not None):
     no_mat = [elemento for elemento in no_mat if not df_mats['E Matrícula Del Estudiante Reportado'].str.contains(
         elemento, regex=True).any()]
 
-    # Función para escribir el excel
-    def df_to_excel(df):
-        output = io.BytesIO()
-        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-            df.to_excel(
-                writer, sheet_name='Información matrículas', index=False)
-        output.seek(0)
-        return output
+    return df_mats, no_mat, df_a
 
-    # Si no se encontró ninguna matrícula
-    if df_mats.empty:
-        st.write('***:red[No se encontraron registros con las matrículas]***')
+def despliegue(a, df_up, df_up2):
+    # Si hay archivos
+    if (df_up is not None) and (df_up2 is not None) and (a is not None):
+        st.header("Filtrado", divider='orange')
+    
+        df_mats, no_mat, df_a = busqueda(df_up, a, df_up2)
+        # Si no se encontró ninguna matrícula
+        if df_mats.empty:
+            st.write('***:red[No se encontraron registros con las matrículas]***')
+    
+        # Si todas las matrículas se encontraron
+        elif not no_mat:
+            st.subheader('Archivo filtrado', divider='grey')
+            df_mats
+            st.download_button(
+                label="Descargar XLSX filtrado",
+                data=df_to_excel(df_mats),
+                file_name=f"{df_up.name.replace('.xlsx','')}_filtrado.xlsx")
+    
+            st.subheader('Resumen matrículas', divider='grey')
+            df_a
+            st.download_button(
+                label="Descargar XLSX de conteo",
+                data=df_to_excel(df_a),
+                file_name=f"{a.name.replace('.xlsx','')}_conteo.xlsx")
+    
+        # Si hubo matrículas tanto no encontradas como encontradas
+        else:
+            st.subheader('Matrículas no encontradas', divider='grey')
+            st.write(','.join(no_mat))
+    
+            st.subheader('Archivo filtrado', divider='grey')
+            df_mats
+    
+            st.download_button(
+                label="Descargar XLSX filtrado",
+                data=df_to_excel(df_mats),
+                file_name=f"{df_up.name.replace('.xlsx','')}_filtrado.xlsx")
+    
+            st.subheader('Resumen matrículas', divider='grey')
+            df_a
+            st.download_button(
+                label="Descargar XLSX de conteo",
+                data=df_to_excel(df_a),
+                file_name=f"{a.name.replace('.xlsx','')}_conteo.xlsx")
+    
+    
+    else:  # Si no se tiene los archivos suficientes
+        st.subheader(":red[¡Alerta!]")
+        st.write('_:red[Favor de subir los archivos faltantes]_')
 
-    # Si todas las matrículas se encontraron
-    elif not no_mat:
-        st.subheader('Archivo filtrado', divider='grey')
-        df_mats
-        st.download_button(
-            label="Descargar XLSX filtrado",
-            data=df_to_excel(df_mats),
-            file_name=f"{df_up.name.replace('.xlsx','')}_filtrado.xlsx")
+# %%% Final
+# Título de la aplicación
+st.title("Búsqueda de Matrículas en Reportes de IA")
 
-        st.subheader('Resumen matrículas', divider='grey')
-        df_a
-        st.download_button(
-            label="Descargar XLSX de conteo",
-            data=df_to_excel(df_a),
-            file_name=f"{a.name.replace('.xlsx','')}_conteo.xlsx")
+a, df_up, df_up2 = None, None, None
+archivos = st.toggle('Carga de archivos')
 
-    # Si hubo matrículas tanto no encontradas como encontradas
-    else:
-        st.subheader('Matrículas no encontradas', divider='grey')
-        st.write(','.join(no_mat))
+if archivos:
+    # Sección para cargar el archivo
+    a, df_up, df_up2 = cargar_archivos()
 
-        st.subheader('Archivo filtrado', divider='grey')
-        df_mats
-
-        st.download_button(
-            label="Descargar XLSX filtrado",
-            data=df_to_excel(df_mats),
-            file_name=f"{df_up.name.replace('.xlsx','')}_filtrado.xlsx")
-
-        st.subheader('Resumen matrículas', divider='grey')
-        df_a
-        st.download_button(
-            label="Descargar XLSX de conteo",
-            data=df_to_excel(df_a),
-            file_name=f"{a.name.replace('.xlsx','')}_conteo.xlsx")
-
-
-else:  # Si no se tiene los archivos suficientes
-    st.subheader(":red[¡Alerta!]")
-    st.write('_:red[Favor de subir los archivos faltantes]_')
+despliegue(a, df_up, df_up2)
