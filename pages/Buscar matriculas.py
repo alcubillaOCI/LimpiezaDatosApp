@@ -4,7 +4,7 @@ import io
 import numpy as np
 
 # Título de la aplicación
-st.title("Aplicación de Búsqueda de Matrículas")
+st.title("Búsqueda de Matrículas en Reportes de IA")
 
 # Sección para cargar el archivo
 st.subheader("Matrículas", divider='blue')
