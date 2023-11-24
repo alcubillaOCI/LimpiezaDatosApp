@@ -10,9 +10,9 @@ st.title("Búsqueda de Matrículas en Reportes de IA")
 st.subheader("Matrículas", divider='blue')
 a = st.file_uploader("Archivo xlsx de _'Matrículas'_ a buscar", type=["xlsx"])
 
-st.subheader("Etiqueta de Denuncias", divider='blue')
+st.subheader("Etiquetas y Denuncias", divider='blue')
 df_up = st.file_uploader(
-    "Archivo xlsx de _'Etiqueta de denuncias limpio'_ del reporte de IA", type=["xlsx"])
+    "Archivo xlsx de la hoja combinada de _'Etiqueta y Denuncias limpio'_ del reporte de IA", type=["xlsx"])
 
 st.subheader("Base de datos escolar", divider='blue')
 df_up2 = st.file_uploader(
@@ -70,14 +70,14 @@ if (df_up is not None) and (df_up2 is not None) and (a is not None):
         else:
             name.append(esc['Nombre completo'].values[0])  # nombre
 
-        if esc['Nivel de estudios'].empty:  # Si no existe el registro
+        if df_mats['Unidad de Negocio'].empty:  # Si no existe el registro
             nivel.append(np.nan)
         else:
             # nivel de estudios
-            nivel.append(esc['Nivel de estudios'].values[0])
+            nivel.append(df_mats['Unidad de Negocio'].values[0])
 
     df_a['Nombre completo'] = name
-    df_a['Nivel de estudios'] = nivel
+    df_a['Unidad de Negocio'] = nivel
     df_a['Región'] = region
     df_a['Folios relacionados'] = folios
     df_a['Cantidad de folios relacionados'] = conteo
