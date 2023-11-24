@@ -1,6 +1,6 @@
+io
 pandas
 numpy
 regex
 os-sys
 zipfile36
-io
