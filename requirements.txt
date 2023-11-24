@@ -1,5 +1,4 @@
 pandas
 numpy
 regex
-os-sys
 zipfile36
