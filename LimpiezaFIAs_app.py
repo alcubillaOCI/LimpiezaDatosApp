@@ -7,15 +7,15 @@ import zipfile
 import io
 
 # Título de la aplicación
-st.title("Aplicación de Carga y Modificación de Archivos")
+st.title("Limpieza de Reportes a la Integridad Académica")
 
 # %%% Sección para cargar el archivo
-st.subheader("Etiqueta de denuncias", divider='orange')
+st.subheader("Reporte IA", divider='orange')
 df_up = st.file_uploader(
     "Archivo xlsx con las páginas 'Etiquetas de denuncias', 'Denuncias' y 'Denuncias desechadas' del reporte de IA", type=["xlsx"])
 
 st.subheader("Zip file", divider='violet')
-zip = st.file_uploader("Cargar el archivo zip", type=["zip"])
+zip = st.file_uploader("Cargar el archivo zip (archivoslistados abajo)", type=["zip"])
 on = st.toggle('Archivos xlsx')
 if on:
     st.write('Todas las bases de datos tienen formato donde el primer renglón es el nombre de columna y solo una hoja')
